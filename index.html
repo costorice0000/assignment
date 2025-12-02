@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>castorice - 連結頁</title> 
+
+    <style>
+
+        /* 新增全域變數，使用圖片中的紫色調 */
+
+        :root {
+
+            --primary-purple: #6A0DAD; 
+
+            --light-purple: #F3E5FF;    
+
+            --text-color: #4A0055;     
+
+            --container-bg: rgba(255, 255, 255, 0.85); 
+
+            --link-hover: #9370DB;     
+
+        }
+
+
+
+        body {
+
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            text-align: center;
+
+            padding: 50px;
+
+            background-color: var(--light-purple);
+
+        }
+
+
+
+        .container {
+
+            background-color: var(--container-bg);
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 8px 16px rgba(106, 13, 173, 0.2);
+
+            max-width: 650px;
+
+            margin: 0 auto;
+
+            backdrop-filter: blur(5px);
+
+        }
+
+
+
+        h1 {
+
+            color: var(--primary-purple);
+
+            margin-bottom: 20px;
+
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+
+        }
+
+
+
+        p {
+
+            color: var(--text-color);
+
+            font-size: 1.1em;
+
+            line-height: 1.6;
+
+        }
+
+
+
+        hr {
+
+            border: 0;
+
+            height: 1px;
+
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--primary-purple), rgba(0, 0, 0, 0));
+
+            margin: 30px 0;
+
+        }
+
+
+
+        /* 頭像樣式 (將圖片變成圓形) */
+
+        .profile-image {
+
+            width: 100px;
+
+            height: 100px;
+
+            border-radius: 50%; /* 圓形 */
+
+            object-fit: cover;
+
+            margin: 0 auto 20px auto; 
+
+            display: block; 
+
+            border: 4px solid var(--primary-purple); /* 紫色邊框 */
+
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+        }
+
+        
+
+        /* 連結樣式 */
+
+        .link-section {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+            margin-top: 30px;
+
+        }
+
+
+
+        .link-button {
+
+            display: block;
+
+            padding: 12px 25px;
+
+            background-color: var(--primary-purple);
+
+            color: #FFFFFF;
+
+            text-decoration: none;
+
+            border-radius: 25px;
+
+            font-size: 1.1em;
+
+            font-weight: bold;
+
+            transition: background-color 0.3s, transform 0.1s;
+
+        }
+
+
+
+        .link-button:hover {
+
+            background-color: var(--link-hover);
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>✨ 歡迎來到我的網頁！</h1>
+
+        
+
+        <img src="AnyConv.com__南北綠豆.jpg" alt="用戶頭像" class="profile-image">
+
+             alt="用戶頭像" 
+
+             class="profile-image">
+
+             
+
+        <p>這是一個簡單的連結集合頁面，用來展示我的 GitHub Pages 專案。</p>
+
+        
+
+        <hr>
+
+
+
+        <p>點擊下方連結以訪問更多內容：</p>
+
+        
+
+        <div class="link-section">
+
+            <a href="https://www.google.com" target="_blank" class="link-button">
+
+                🌐 連結一：前往 Google
+
+            </a>
+
+            <a href="https://github.com" target="_blank" class="link-button">
+
+                🐈 連結二：前往 GitHub
+
+            </a>
+
+        </div>
+
+        
+
+        <hr>
+
+    </div>
+
+</body>
+
+</html>
