@@ -1,0 +1,454 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>castorice - 實用連結與工具</title> 
+    <style>
+        /* 新增全域變數，使用圖片中的紫色調 */
+        :root {
+            --primary-purple: #6A0DAD; /* 標題與按鈕背景色 */
+            --light-purple: #F3E5FF;    /* 背景淡紫色 */
+            --text-color: #4A0055;     /* 深紫文字色 */
+            --container-bg: rgba(255, 255, 255, 0.85); /* 主要容器背景 */
+            --tool-bg: rgba(255, 255, 255, 0.95); /* 工具背景 */
+            --tool-header-bg: #8A2BE2; /* 工具頭部紫色 */
+            --link-hover: #9370DB;     
+            --calc-btn-bg: #DDD0F0; /* 計算機按鈕背景 */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: var(--light-purple);
+        }
+
+        .container {
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(106, 13, 173, 0.2);
+            max-width: 650px;
+            margin: 0 auto;
+            backdrop-filter: blur(5px);
+            position: relative; /* 為了彈出視窗定位 */
+        }
+
+        h1 {
+            color: var(--primary-purple);
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            color: var(--text-color);
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--primary-purple), rgba(0, 0, 0, 0));
+            margin: 30px 0;
+        }
+
+        /* 頭像樣式 */
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px auto; 
+            display: block; 
+            border: 4px solid var(--primary-purple);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 連結/工具按鈕樣式 */
+        .link-section, .tool-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .tool-section {
+            flex-direction: row; /* 工具並排顯示 */
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .tool-button {
+            width: 45%;
+            padding: 12px 0;
+        }
+
+        .link-button, .tool-button {
+            display: block;
+            background-color: var(--primary-purple);
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.1s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .link-button:hover, .tool-button:hover {
+            background-color: var(--link-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* === 彈出工具視窗樣式 (Modal) === */
+        .tool-modal {
+            display: none; /* 預設隱藏 */
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5); /* 半透明黑色背景 */
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-content {
+            background-color: var(--tool-bg);
+            margin: 10% auto; /* 上下邊距，居中 */
+            padding: 0;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+
+        .modal-header {
+            padding: 10px;
+            background-color: var(--tool-header-bg);
+            color: white;
+            font-size: 1.2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .close-btn {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close-btn:hover, .close-btn:focus {
+            color: #f0f0f0;
+            text-decoration: none;
+        }
+
+        /* === 計算機樣式 (類似 iOS 風格) === */
+        #calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 10px;
+            background-color: #333; /* 模擬深色計算機背景 */
+            border-radius: 8px;
+        }
+
+        #display {
+            grid-column: 1 / 5;
+            background-color: #000;
+            color: #fff;
+            text-align: right;
+            padding: 15px;
+            font-size: 2.5em;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .calc-btn {
+            background-color: var(--calc-btn-bg);
+            color: #000;
+            border: none;
+            padding: 20px 0;
+            border-radius: 50%; /* 圓形按鈕 */
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.1s;
+            font-weight: bold;
+        }
+
+        .calc-btn.operator, .calc-btn.equal {
+            background-color: var(--primary-purple); /* 運算子使用紫色 */
+            color: white;
+        }
+
+        .calc-btn.zero {
+            grid-column: 1 / 3; /* 0 按鈕佔兩格 */
+            border-radius: 35px; /* 橢圓形 */
+        }
+
+        .calc-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* === 記事本樣式 === */
+        #notepad-area {
+            width: 100%;
+            min-height: 250px;
+            padding: 15px;
+            border: 1px solid var(--primary-purple);
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 1em;
+            box-sizing: border-box;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+        }
+
+        #save-note {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        #save-note:hover {
+            background-color: var(--link-hover);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ 歡迎來到 Castorice 的世界！</h1>
+        
+          <img src="AnyConv.com__南北綠豆.jpg" alt="用戶頭像" class="profile-image">
+
+             
+        <p>這是一個簡單的連結集合頁面，用來展示我的 GitHub Pages 專案。</p>
+        
+        <hr>
+        <p>實用工具：</p>
+        <div class="tool-section">
+            <button class="tool-button" onclick="openModal('calculator-modal')">🧮 計算機</button>
+            <button class="tool-button" onclick="openModal('notepad-modal')">📝 記事本</button>
+        </div>
+        <hr>
+
+        <p>點擊下方連結以訪問更多內容：</p>
+        
+        <div class="link-section">
+            <a href="https://www.google.com" target="_blank" class="link-button">
+                🌐 連結一：前往 Google
+            </a>
+            <a href="https://github.com" target="_blank" class="link-button">
+                🐈 連結二：前往 GitHub
+            </a>
+        </div>
+        
+        <hr>
+        <p style="font-size: 0.9em; color: #999;">網頁由 Castorice 設計與維護。</p>
+    </div>
+
+    <div id="calculator-modal" class="tool-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>🧮 紫色計算機</span>
+                <span class="close-btn" onclick="closeModal('calculator-modal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="display">0</div>
+                <div id="calculator">
+                    <button class="calc-btn" onclick="clearDisplay()">AC</button>
+                    <button class="calc-btn" onclick="toggleSign()">+/-</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('%')">%</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('/')">÷</button>
+                    
+                    <button class="calc-btn number" onclick="appendToDisplay('7')">7</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('8')">8</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('9')">9</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('*')">×</button>
+
+                    <button class="calc-btn number" onclick="appendToDisplay('4')">4</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('5')">5</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('6')">6</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('-')">−</button>
+
+                    <button class="calc-btn number" onclick="appendToDisplay('1')">1</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('2')">2</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('3')">3</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('+')">+</button>
+
+                    <button class="calc-btn zero" onclick="appendToDisplay('0')">0</button>
+                    <button class="calc-btn" onclick="appendToDisplay('.')">.</button>
+                    <button class="calc-btn equal" onclick="calculateResult()">=</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notepad-modal" class="tool-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>📝 我的記事本</span>
+                <span class="close-btn" onclick="closeModal('notepad-modal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <textarea id="notepad-area" placeholder="在這裡輸入你的筆記..."></textarea>
+                <button id="save-note" onclick="saveNote()">儲存筆記 (使用瀏覽器記憶體)</button>
+                <p style="font-size: 0.9em; margin-top: 10px; color: #666; text-align: center;">筆記會儲存在你的瀏覽器中。</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Modal (彈出視窗) 邏輯 ---
+        function openModal(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // 點擊 Modal 外部時關閉
+        window.onclick = function(event) {
+            if (event.target.classList.contains('tool-modal')) {
+                event.target.style.display = "none";
+            }
+        }
+
+        // --- 記事本邏輯 (使用 localStorage 儲存) ---
+        const notepadArea = document.getElementById('notepad-area');
+        const storageKey = 'castorice_notepad_note';
+
+        // 載入筆記
+        function loadNote() {
+            const savedNote = localStorage.getItem(storageKey);
+            if (savedNote) {
+                notepadArea.value = savedNote;
+            }
+        }
+
+        // 儲存筆記
+        function saveNote() {
+            localStorage.setItem(storageKey, notepadArea.value);
+            alert('筆記已儲存！');
+        }
+
+        // 頁面載入時載入筆記
+        window.onload = loadNote;
+
+
+        // --- 計算機邏輯 ---
+        let currentInput = '0';
+        let display = document.getElementById('display');
+        let operator = null;
+        let previousValue = 0;
+        let waitingForSecondOperand = false;
+
+        function updateDisplay() {
+            display.textContent = currentInput;
+        }
+
+        function clearDisplay() {
+            currentInput = '0';
+            operator = null;
+            previousValue = 0;
+            waitingForSecondOperand = false;
+            updateDisplay();
+        }
+
+        function appendToDisplay(value) {
+            if (value === '.' && currentInput.includes('.')) return;
+
+            if (['+', '-', '*', '/', '%'].includes(value)) {
+                handleOperator(value);
+                return;
+            }
+
+            if (currentInput === '0' || waitingForSecondOperand) {
+                currentInput = value;
+                waitingForSecondOperand = false;
+            } else {
+                currentInput += value;
+            }
+            updateDisplay();
+        }
+
+        function handleOperator(nextOperator) {
+            const inputValue = parseFloat(currentInput);
+
+            if (operator && waitingForSecondOperand) {
+                operator = nextOperator;
+                return;
+            }
+
+            if (previousValue === 0) {
+                previousValue = inputValue;
+            } else if (operator) {
+                const result = calculate(previousValue, inputValue, operator);
+                currentInput = String(result);
+                previousValue = result;
+            }
+
+            waitingForSecondOperand = true;
+            operator = nextOperator;
+            updateDisplay();
+        }
+
+        function calculate(first, second, op) {
+            switch (op) {
+                case '+': return first + second;
+                case '-': return first - second;
+                case '*': return first * second;
+                case '/': return first / second;
+                case '%': return first % second;
+                default: return second;
+            }
+        }
+
+        function calculateResult() {
+            if (operator === null || waitingForSecondOperand) return;
+
+            const inputValue = parseFloat(currentInput);
+            const result = calculate(previousValue, inputValue, operator);
+
+            currentInput = String(result.toFixed(5).replace(/\.?0+$/, '')); // 限制小數位並去除尾隨零
+            previousValue = 0;
+            operator = null;
+            waitingForSecondOperand = true; 
+            updateDisplay();
+        }
+        
+        // 切換正負號
+        function toggleSign() {
+            currentInput = String(parseFloat(currentInput) * -1);
+            updateDisplay();
+        }
+        
+        // 初始化顯示
+        updateDisplay();
+    </script>
+</body>
+</html>
+```
+
